@@ -26,13 +26,13 @@ jobs:
   # Exercise: Infrastructure Creation
   # Exercise - Rollback
   create_infrastructure: 
-      docker:
-        - image: amazon/aws-cli
-    #  executor: aws-cli/default
+      # docker:
+      #   - image: amazon/aws-cli
+      executor: aws-cli/default
       steps:
         - checkout
-        # - aws-cli/setup:
-        #     profile-name: default
+        - aws-cli/setup:
+            profile-name: default
         - run:
             name: Create Cloudformation Stack
             command: |

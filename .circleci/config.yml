@@ -40,7 +40,8 @@ jobs:
         - destroy_aws_environment
         - run: touch ~/inventory.txt
         - run: echo [all] > inventory.txt
-        - run: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory.txt
+        - run: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> ~/inventory.txt
+        - run: cat ~/inventory.txt
         - persist_to_workspace:
             root: ~/
             paths: 
@@ -54,7 +55,7 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys: 
-          fingerprints: ["46:5c:09:73:d6:81:cd:51:37:6a:72:cc:66:13:20:e8"]
+          fingerprints: ["ba:5c:84:48:e6:4e:22:59:a5:59:17:12:e1:ac:df:69"]
       - run:
           name: install dependencies
           command: | 

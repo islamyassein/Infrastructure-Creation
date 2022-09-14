@@ -31,8 +31,8 @@ jobs:
     #  executor: aws-cli/default
       steps:
         - checkout
-        - aws-cli/setup:
-            profile-name: default
+        # - aws-cli/setup:
+        #     profile-name: default
         - run:
             name: Create Cloudformation Stack
             command: |
@@ -96,8 +96,8 @@ workflows:
   # Name the workflow
   myWorkflow:
     jobs:
-       - create_infrastructure
-      # - configure_infrastructure:
-      #     requires:
-      #       - create_infrastructure
-      # - smoke_test
+      - create_infrastructure
+      #- configure_infrastructure:
+      #    requires:
+      #      - create_infrastructure
+      #- smoke_test

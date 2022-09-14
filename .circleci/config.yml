@@ -26,9 +26,9 @@ jobs:
   # Exercise: Infrastructure Creation
   # Exercise - Rollback
   create_infrastructure: 
-      # docker:
-      #   - image: amazon/aws-cli
-      executor: aws-cli/default
+      docker:
+        - image: amazon/aws-cli
+      # executor: aws-cli/default
       steps:
         - checkout
         - aws-cli/setup:

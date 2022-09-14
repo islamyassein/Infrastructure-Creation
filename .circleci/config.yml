@@ -38,9 +38,40 @@ jobs:
                 --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
                 --region us-east-1
         - destroy_aws_environment
+        - run: touch ~/inventory.txt
+        - run: echo [all] > inventory.txt
+        - run: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory.txt
+        - persist_to_workspace:
+            root: ~/
+            paths: 
+              - inventory.txt
+
+
 
   # Exercise: Config and Deployment
-  # configure_infrastructure: 
+  configure_infrastructure: 
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - add_ssh_keys: 
+          fingerprints: ["46:5c:09:73:d6:81:cd:51:37:6a:72:cc:66:13:20:e8"]
+      - run:
+          name: install dependencies
+          command: | 
+            # install the dependencies needed for your playbook
+            apk add --update ansible
+      - attach_workspace:
+          at: ~/
+      - run: cat ~/inventory.txt
+      - run:
+          name: Configure Server
+          command: |
+            ansible-playbook -i inventory.txt playbook.yml
+
+
+
+
 # Sequential workflow
 workflows:
   # Name the workflow

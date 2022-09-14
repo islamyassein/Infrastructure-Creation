@@ -17,8 +17,10 @@ commands:
           # ${CIRCLE_WORKFLOW_ID:0:7} takes the first 5 chars of the variable CIRCLE_CI_WORKFLOW_ID 
           name: Destroy AWS Environment
           when: on_fail
-          command: | 
-            aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:7}
+          command: |
+            aws cloudformation delete-stack --stack-name myStack-8b4c8d4}
+#           aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:7}
+
 
 
 
@@ -109,10 +111,10 @@ workflows:
   # Name the workflow
   myWorkflow:
     jobs:
-      - create_infrastructure
+      # - create_infrastructure
       #- configure_infrastructure:
       #    requires:
       #      - create_infrastructure
-      - smoke_test_2:
-          requires:
-            - create_infrastructure
+      - smoke_test_2
+          # requires:
+            # - create_infrastructure

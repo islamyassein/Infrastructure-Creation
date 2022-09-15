@@ -16,6 +16,7 @@ commands:
           # ${CIRCLE_WORKFLOW_ID} is a Built-in environment variable 
           # ${CIRCLE_WORKFLOW_ID:0:7} takes the first 5 chars of the variable CIRCLE_CI_WORKFLOW_ID 
           name: Destroy AWS Environment
+          when: on_fail
           command: |
             aws cloudformation delete-stack --stack-name myStack-8b4c8d4}
 #           aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:7}
@@ -45,8 +46,7 @@ jobs:
                 --template-file template.yml \
                 --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:7} \
                 --region us-east-1
-        - destroy_aws_environment:
-            when: on_fail
+        - destroy_aws_environment
         - run: touch ~/inventory.txt
         - run: echo [all] > inventory.txt
         - run: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> ~/inventory.txt
@@ -104,8 +104,7 @@ jobs:
           name: Test job
           # Fail the job intentionally to simulate an error.
           command:  return 1
-      - destroy_aws_environment:
-          when: on_fail
+      - destroy_aws_environment
 
 # Sequential workflow
 workflows:
